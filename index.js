@@ -3,14 +3,14 @@
  *--------------------------------------------------------------------
 **/
 const Koa = require('koa');
-const Router = require('koa-router');
 const https = require('https');
 const { default: enforceHttps } = require('koa-sslify');
 const path = require('path');
 const fs = require('fs');
-const httpProxy = require('http-proxy');
 const dotenv = require('dotenv');
 dotenv.config();
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
 
 /*--------------------------------------------------------------------
  *                       CREATION SERVEUR
@@ -18,79 +18,48 @@ dotenv.config();
 **/
 // init
 const app = new Koa();
-const routes = new Router();
 
-// Create a proxy instance
-const proxy = httpProxy.createProxyServer();
 
 let options = {
   key: fs.readFileSync(path.join(__dirname, './ssl/private.pem')),
   cert: fs.readFileSync(path.join(__dirname, './ssl/public.pem'))
 }
 
+// Middleware for parsing request body
+app.use(async (ctx, next) => {
+  // Récupérer le sous-domaine de la requête
+  const subdomain = ctx.hostname.split('.')[0];
 
-/*--------------------------------------------------------------------
- *                         ROUTE OPTIONS
- *--------------------------------------------------------------------
-**/
-// gère les pré-vérifications OPTIONS
-routes.options('(.*)', async (ctx, next) => {
-  ctx.set('Access-Control-Allow-Origin', '*');
-  ctx.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  ctx.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Access-Control-Allow-Origin');
-  ctx.status = 200;
-  return next();
-});
-
-routes.all('(.*)', async (ctx, next) => {
-  // Extract the subdomain from the request
-  const subdomain = ctx.request.hostname.split('.')[0];
-
-  // Define the target server based on the subdomain
-  let target;
-  if (subdomain === 'organimprod') {
-    target = process.env.REDIRECTION_ORGANIMPROD;
+  // Rediriger les requêtes en fonction du sous-domaine
+  if (subdomain === 'organim') {
+    // Rediriger les requêtes vers le serveur x sur le port spécifié
+    return createProxyMiddleware({
+      target: process.env.REDIRECTION_ORGANIMPROD,
+      changeOrigin: true,
+    })(ctx, next);
+  } else if (subdomain === 'organimDev') {
+    // Rediriger les requêtes vers le serveur y sur le port spécifié
+    return createProxyMiddleware({
+      target: process.env.REDIRECTION_ORGANIMDEV,
+      changeOrigin: true,
+    })(ctx, next);
   } else {
-    target = process.env.REDIRECTION_DEV;
+    // Rediriger les requêtes vers le serveur y sur le port spécifié
+    return createProxyMiddleware({
+      target: process.env.REDIRECTION_ORGANIMPROD,
+      changeOrigin: true,
+    })(ctx, next);
   }
+  // Ajoutez plus de conditions pour d'autres sous-domaines si nécessaire
 
-  // Proxy the request to the target server
-  try {
-    await new Promise((resolve, reject) => {
-      proxy.web(ctx.request, ctx.response, { target }, (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
-    });
-  } catch (err) {
-    console.error('Proxy error:', err);
-    ctx.status = 500;
-    ctx.body = 'Proxy error';
-  }
-
+  // Si aucun sous-domaine correspondant n'est trouvé, passez au middleware suivant
   await next();
-});
-
-// Error handling for the proxy
-proxy.on('error', (err, req, res) => {
-  console.error('Proxy error:', err);
-  res.writeHead(500, {
-    'Content-Type': 'text/plain',
-  });
-  res.end('Proxy error');
 });
 
 /*----------------------------------------------------
  *               Configuration Serveur
  *----------------------------------------------------
 **/
-// Utilisation du routeur Koa
-app.use(routes.routes());
-app.use(routes.allowedMethods());
-
 // Démarrez le serveur sur le port process.env.PORT || 443;
 const PORT = process.env.PORT || 49152;
 
