@@ -34,8 +34,8 @@ jobs:
           pm2 link 2bml2lodagrpvxh bozifvh1cnkws6t
           
       - name: Start PM2
-        run: pm2 start index.js --watch -i max
-
+        run: pm2 start index.js --watch -i max --user blegourr
+        
       # - name: Save PM2 process list
       #   run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save
 
