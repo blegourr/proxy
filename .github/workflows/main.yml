@@ -1,4 +1,4 @@
-name: Deploy last changes
+name: Node.js Deployment
 on:
   push:
     branches:
