@@ -55,15 +55,21 @@ routes.all('(.*)', async (ctx, next) => {
   }
 
   // Proxy the request to the target server
-  await new Promise((resolve, reject) => {
-    proxy.web(ctx.req, ctx.res, { target }, (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
+  try {
+    await new Promise((resolve, reject) => {
+      proxy.web(ctx.req, ctx.res, { target }, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
     });
-  });
+  } catch (err) {
+    console.error('Proxy error:', err);
+    ctx.status = 500;
+    ctx.body = 'Proxy error';
+  }
 
   await next();
 });
