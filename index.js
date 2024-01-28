@@ -34,19 +34,19 @@ app.use(async (ctx, next) => {
   if (subdomain === 'organim') {
     // Rediriger les requêtes vers le serveur x sur le port spécifié
     return createProxyMiddleware({
-      target: process.env.REDIRECTION_ORGANIMPROD,
+      target: `${process.env.REDIRECTION_ORGANIMPROD}`,
       changeOrigin: false,
     })(ctx, next);
   } else if (subdomain === 'organimDev') {
     // Rediriger les requêtes vers le serveur y sur le port spécifié
     return createProxyMiddleware({
-      target: process.env.REDIRECTION_ORGANIMDEV,
+      target: `${process.env.REDIRECTION_ORGANIMDEV}`,
       changeOrigin: false,
     })(ctx, next);
   } else {
     // Rediriger les requêtes vers le serveur y sur le port spécifié
     return createProxyMiddleware({
-      target: process.env.REDIRECTION_ORGANIMPROD,
+      target: `${process.env.REDIRECTION_ORGANIMPROD}`,
       changeOrigin: false,
     })(ctx, next);
   }
