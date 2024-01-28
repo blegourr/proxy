@@ -37,3 +37,6 @@ jobs:
         
       - name: Save PM2 process list
         run: pm2 save
+
+      - name: LOGS
+        run: pm2 logs
