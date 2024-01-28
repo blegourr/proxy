@@ -1,57 +1,76 @@
-name: Node.js Deployment
+# name: Node.js Deployment
 
+# on:
+#   push:
+#     branches:
+#       - master
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     name: Deploy to staging
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '21'
+
+#       - name: Install dependencies
+#         run: |
+#           npm i pm2@latest -g
+#           npm install
+          
+#       - name: Start PM2
+#         run: |
+#           pm2 start index.js --watch -i max
+        
+#       - name: Save PM2 process list
+#         run: | 
+#           pm2 save
+
+  #                     - name: Restart PM2 service Action
+  # # You may pin to the exact commit or the version.
+  # # uses: fcocea/Restart-PM2-Action@ae107c7d9613b7c4c99f88cd5a4c9c9e07531fb9
+  # uses: fcocea/Restart-PM2-Action@v1.0
+  # with:
+  #   # SSH IP address of the remote server
+  #   SSH_HOST: 192.168.1.1
+  #   # SSH Port of the remote server
+  #   SSH_PORT: 22 # default is 22
+  #   # SSH Username for connecting to the remote server
+  #   SSH_USER: blegourr
+  #   # SSH Password for connecting to the remote server
+  #   SSH_PASS: ${{ secrets.SSH_PASS }}
+  #   # Folder where the pm2 service is located
+  #   FOLDER: /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2
+  #   # Name of the pm2 service
+  #   PM2_SERVICE: 2
+  #   # Branch of the repository
+  #   REPO_BRANCH: master # optional, default is main
+name: Deploy last changes
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches:
       - main
-
 jobs:
-  deploy:
-    name: Deploy to staging
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v2
+      - name: Restart service
+        uses: fcocea/Restart-PM2-Action@v1.0
         with:
-          node-version: '21'
-
-      - name: Install dependencies
-        run: |
-          npm i pm2@latest -g
-          npm install
-          
-      - name: Start PM2
-        run: |
-          pm2 start index.js --watch -i max
-        
-      - name: Save PM2 process list
-        run: | 
-          pm2 save
-
-                      - name: Restart PM2 service Action
-  # You may pin to the exact commit or the version.
-  # uses: fcocea/Restart-PM2-Action@ae107c7d9613b7c4c99f88cd5a4c9c9e07531fb9
-  uses: fcocea/Restart-PM2-Action@v1.0
-  with:
-    # SSH IP address of the remote server
-    SSH_HOST: 192.168.1.1
-    # SSH Port of the remote server
-    SSH_PORT: 22 # default is 22
-    # SSH Username for connecting to the remote server
-    SSH_USER: blegourr
-    # SSH Password for connecting to the remote server
-    SSH_PASS: ${{ secrets.SSH_PASS }}
-    # Folder where the pm2 service is located
-    FOLDER: /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2
-    # Name of the pm2 service
-    PM2_SERVICE: 2
-    # Branch of the repository
-    REPO_BRANCH: master # optional, default is main
-          
+          SSH_HOST: 192.168.1.1
+          SSH_USER: blegourr
+          SSH_PASS: ${{ secrets.SSH_PASS }}
+          SSH_PORT: 22 # Default: 22
+          FOLDER: /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2
+          PM2_SERVICE: 2
+          REPO_BRANCH: master # Default: main    
