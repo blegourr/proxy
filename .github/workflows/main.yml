@@ -1,36 +1,54 @@
-name: Node.js Deployment
+# name: Node.js Deployment
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - master
+#   pull_request:
+#     branches:
+#       - main
 
+# jobs:
+#   deploy:
+#     name: Deploy to staging
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '21'
+
+#       - name: Install dependencies
+#         run: |
+#           npm i pm2 -g
+#           npm install
+#       - name: Start PM2
+#         run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start ./index.js
+
+#       - name: Save PM2 process list
+#         run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save
+
+#       - name: Set PM2 startup
+#         run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd -u runner --hp /home/runner
+#workflow name
+name: "simple workflow pm2 configuration"
+
+#event, trigger action that running our Jobs.
+#In this file we trigger pm2-configuration every we push code to repository.
+on: [push]
 jobs:
-  deploy:
-    name: Deploy to staging
+  pm2-configuration:
+    #runner, This job will be running in runner with Ubuntu Server latest version.
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '21'
-
-      - name: Install dependencies
-        run: |
-          npm i pm2 -g
-          npm install
-      - name: Start PM2
-        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start ./index.js
-
-      - name: Save PM2 process list
-        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save
-
-      - name: Set PM2 startup
-        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd -u runner --hp /home/runner
+      - uses: actions/checkout@v3 #checkout code from repository, so we code downloaded in runner.
+      - uses: actions/setup-node@v3 #setup nodejs in our runner
+      - run: npm install pm2@latest -g #install pm2 global
+      - run: pm2 -V #check pm2 version
+      - run: pm2 list #check pm2 list
+      #running pm2 in mode cluster and --watch set to auto restart if index.js have changes.
+      - run: pm2 start index.js --watch -i max
