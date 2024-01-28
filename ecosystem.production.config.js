@@ -15,7 +15,7 @@ module.exports = {
           key  : './gitub_action_key',
           ref  : 'origin/master',
           repo : 'git@github.com:blegourr/proxy.git',
-          path : '/var/www/blegourr_production',
+          path : '/',
           'post-setup': 'npm install',
           'post-deploy' : 'pm2 reload ecosystem.production.config.js --env production',
       }
