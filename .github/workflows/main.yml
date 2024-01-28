@@ -36,7 +36,9 @@ jobs:
         run: pm2 start index.js --watch -i max
         
       - name: Save PM2 process list
-        run: pm2 save
+        run: | 
+          pm2 save
+          pm2 startup
 
       # - name: LOGS
       #   run: pm2 logs
