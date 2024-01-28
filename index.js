@@ -44,7 +44,7 @@ routes.options('(.*)', async (ctx, next) => {
 });
 
 routes.all('(.*)', async (ctx, next) => {
-  console.log("oki")
+  console.log("oki");
   // Extract the subdomain from the request
   const subdomain = ctx.request.hostname.split('.')[0];
 
@@ -88,7 +88,7 @@ app.use(routes.routes());
 app.use(routes.allowedMethods());
 
 // Démarrez le serveur sur le port process.env.PORT || 443;
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 49152;
 
 app.use(enforceHttps({
   port: PORT
