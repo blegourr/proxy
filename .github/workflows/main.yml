@@ -32,7 +32,7 @@ jobs:
           pm2 -V
           pm2 list
           
-       - name: Start PM2
+      - name: Start PM2
         run:  sudo -E -u blegourr env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start index.js --watch -i max
         
       - name: Save PM2 process list
