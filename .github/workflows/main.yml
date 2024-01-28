@@ -1,27 +1,6 @@
-# name: Node.js Deployment
-# on:
-#   push:
-#     branches:
-#       - main
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Restart service
-#         uses: fcocea/Restart-PM2-Action@v1.0
-#         with:
-#           SSH_HOST: 192.168.1.1
-#           SSH_USER: blegourr
-#           SSH_PASS: ${{ secrets.SSH_PASS }}
-#           SSH_PORT: 22 # Default: 22
-#           FOLDER: /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2
-#           PM2_SERVICE: 2
-#           REPO_BRANCH: master # Default: main    
-
-
-name: Node.js Deployment
-
+name:  Node.js Deployment
+# Controls when the action will run.
+# Triggers the workflow on push or pull request events but only for the master branch
 on:
   push:
     branches:
@@ -29,33 +8,52 @@ on:
   pull_request:
     branches:
       - master
-
-jobs:
-  deploy:
-    name: Deploy to staging
+jobs :
+  build :
     runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+    steps :
+      - name: Deploy using ssh
+        uses: appleboy/ssh-actio@aster
         with:
-          node-version: '21'
+          host: secrets.HOST
+          usernæe: secrets .USERNAME
+          key: secrets.SSH_PASS
+          port: 22
+          script: |
+            cd ./proxy
+            git pull
+            git status
+            npm install
+            pm2 restart proxy
 
-      - name: Install dependencies
-        run: |
-          npm i pm2@latest -g
-          npm install
+
+            
+# jobs:
+#   deploy:
+#     name: Deploy to staging
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '21'
+
+#       - name: Install dependencies
+#         run: |
+#           npm i pm2@latest -g
+#           npm install
           
-      - name: Start PM2
-        run: |
-          pm2 start index.js --watch -i max
+#       - name: Start PM2
+#         run: |
+#           pm2 start index.js --watch -i max
         
-      - name: Save PM2 process list
-        run: | 
-          pm2 save
+#       - name: Save PM2 process list
+#         run: | 
+#           pm2 save
 
   #                     - name: Restart PM2 service Action
   # # You may pin to the exact commit or the version.
