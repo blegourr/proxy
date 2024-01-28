@@ -24,6 +24,7 @@ app.use(async (ctx, next) => {
 
   // Rediriger les requêtes en fonction du sous-domaine
   if (subdomain === 'organim') {
+    console.log(process.env.REDIRECTION_ORGANIMPROD);
     // Rediriger les requêtes vers le serveur x sur le port spécifié
     proxy.web(ctx.req, ctx.res, {
       target: process.env.REDIRECTION_ORGANIMPROD
