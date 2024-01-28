@@ -26,19 +26,12 @@ jobs:
         run: |
           npm i pm2@latest -g
           npm install
-
-      - name: PM2 config
-        run: |
-          pm2 -V
-          pm2 list
           
       - name: Start PM2
-        run:  sudo -u blegourr env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start index.js --watch -i max
+        run: |
+          su - blegourr -c "env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start index.js --watch -i max"
         
       - name: Save PM2 process list
         run: | 
-          sudo -u blegourr env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save
-          sudo -u blegourr env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd
-
-      # - name: LOGS
-      #   run: pm2 logs
+          su - blegourr -c "env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save"
+          su - blegourr -c "env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd"
