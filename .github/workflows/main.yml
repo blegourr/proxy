@@ -29,9 +29,9 @@ jobs:
           
       - name: Start PM2
         run: |
-          su - blegourr -c "env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start index.js --watch -i max"
+          pm2 start index.js --watch -i max"
         
       - name: Save PM2 process list
         run: | 
-          su - blegourr -c "env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save"
-          su - blegourr -c "env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd"
+          pm2 save"
+          pm2 startup systemd"
