@@ -25,13 +25,17 @@ jobs:
       - name: Install dependencies
         run: |
           npm i pm2@latest -g
-          pm2 -V
-          pm2 list
           npm install
 
+      - name: PM2 config
+        run: |
+          pm2 -V
+          pm2 list
+          pm2 monitor
+          pm2 link 2bml2lodagrpvxh bozifvh1cnkws6t
           
-      # - name: Start PM2
-      #   run: pm2 start index.js --watch -i max
+      - name: Start PM2
+        run: pm2 start index.js --watch -i max
 
       # - name: Save PM2 process list
       #   run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save
