@@ -28,7 +28,6 @@ let options = {
   cert: fs.readFileSync(path.join(__dirname, './ssl/public.pem'))
 }
 
-console.log(path.join(__dirname, './ssl/private.pem'));
 
 /*--------------------------------------------------------------------
  *                         ROUTE OPTIONS
@@ -44,7 +43,6 @@ routes.options('(.*)', async (ctx, next) => {
 });
 
 routes.all('(.*)', async (ctx, next) => {
-  console.log("oki");
   // Extract the subdomain from the request
   const subdomain = ctx.request.hostname.split('.')[0];
 
