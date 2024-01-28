@@ -33,7 +33,7 @@ on:
 jobs:
   deploy:
     name: Deploy to staging
-    runs-on: self-hosted
+    runs-on: proxy
 
     steps:
       - name: Checkout repository
