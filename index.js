@@ -57,7 +57,7 @@ routes.all('(.*)', async (ctx, next) => {
   // Proxy the request to the target server
   try {
     await new Promise((resolve, reject) => {
-      proxy.web(ctx.req, ctx.res, { target }, (err) => {
+      proxy.web(ctx.request, ctx.response, { target }, (err) => {
         if (err) {
           reject(err);
         } else {
