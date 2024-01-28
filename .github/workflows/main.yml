@@ -28,12 +28,12 @@ jobs:
           npm install
 
       - name: Start PM2
-        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start ./index.js systemd -u runner --hp /home/runner
+        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start ./index.js
 
       - name: Save PM2 process list
-        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save systemd -u runner --hp /home/runner
+        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save
 
       - name: Look
-        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 log systemd -u runner --hp /home/runner
+        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 log
       # - name: Set PM2 startup
         # run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd -u runner --hp /home/runner
