@@ -24,4 +24,4 @@ jobs :
             git pull
             git status
             npm install
-            pm2 restart proxy -i max
+            pm2 restart proxy
