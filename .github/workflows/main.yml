@@ -1,3 +1,25 @@
+name: Deploy last changes
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Restart service
+        uses: fcocea/Restart-PM2-Action@v1.0
+        with:
+          SSH_HOST: 192.168.1.1
+          SSH_USER: blegourr
+          SSH_PASS: ${{ secrets.SSH_PASS }}
+          SSH_PORT: 22 # Default: 22
+          FOLDER: /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2
+          PM2_SERVICE: 2
+          REPO_BRANCH: master # Default: main    
+
+
 # name: Node.js Deployment
 
 # on:
@@ -54,23 +76,3 @@
   #   PM2_SERVICE: 2
   #   # Branch of the repository
   #   REPO_BRANCH: master # optional, default is main
-name: Deploy last changes
-on:
-  push:
-    branches:
-      - main
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Restart service
-        uses: fcocea/Restart-PM2-Action@v1.0
-        with:
-          SSH_HOST: 192.168.1.1
-          SSH_USER: blegourr
-          SSH_PASS: ${{ secrets.SSH_PASS }}
-          SSH_PORT: 22 # Default: 22
-          FOLDER: /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2
-          PM2_SERVICE: 2
-          REPO_BRANCH: master # Default: main    
