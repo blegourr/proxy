@@ -33,6 +33,7 @@ app.use(async (ctx, next) => {
   // Rediriger les requêtes en fonction du sous-domaine
   if (subdomain === 'organim') {
     // Rediriger les requêtes vers le serveur x sur le port spécifié
+    console.log(process.env.REDIRECTION_ORGANIMPROD);
     return createProxyMiddleware({
       target: `${process.env.REDIRECTION_ORGANIMPROD}`,
       changeOrigin: false,
