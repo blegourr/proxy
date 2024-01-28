@@ -38,7 +38,7 @@ jobs:
       - name: Save PM2 process list
         run: | 
           pm2 save
-          pm2 startup
+          sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd -u blegourr --hp /home/blegourr
 
       # - name: LOGS
       #   run: pm2 logs
