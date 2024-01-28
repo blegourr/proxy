@@ -35,19 +35,19 @@ app.use(async (ctx, next) => {
     // Rediriger les requêtes vers le serveur x sur le port spécifié
     return createProxyMiddleware({
       target: process.env.REDIRECTION_ORGANIMPROD,
-      changeOrigin: true,
+      changeOrigin: false,
     })(ctx, next);
   } else if (subdomain === 'organimDev') {
     // Rediriger les requêtes vers le serveur y sur le port spécifié
     return createProxyMiddleware({
       target: process.env.REDIRECTION_ORGANIMDEV,
-      changeOrigin: true,
+      changeOrigin: false,
     })(ctx, next);
   } else {
     // Rediriger les requêtes vers le serveur y sur le port spécifié
     return createProxyMiddleware({
       target: process.env.REDIRECTION_ORGANIMPROD,
-      changeOrigin: true,
+      changeOrigin: false,
     })(ctx, next);
   }
   // Ajoutez plus de conditions pour d'autres sous-domaines si nécessaire
