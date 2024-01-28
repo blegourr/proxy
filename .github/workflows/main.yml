@@ -33,12 +33,12 @@ jobs:
           pm2 list
           
       - name: Start PM2
-        run:  sudo -E -u 1000 env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start index.js --watch -i max
+        run:  sudo -u blegourr env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start index.js --watch -i max
         
       - name: Save PM2 process list
         run: | 
-          sudo -E -u 1000 env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save
-          sudo -E -u 1000 env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd
+          sudo -u blegourr env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save
+          sudo -u blegourr env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd
 
       # - name: LOGS
       #   run: pm2 logs
