@@ -15,9 +15,9 @@ jobs :
       - name: Deploy using ssh
         uses: appleboy/ssh-action@master
         with:
-          host: secrets.HOST
-          username: secrets.USERNAME
-          key: secrets.SSH_PASS
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PASS }}
           port: 22
           script: |
             cd ./proxy
