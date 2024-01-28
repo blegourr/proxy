@@ -27,8 +27,14 @@ jobs:
           npm i pm2 -g
           npm install
 
-      - name: Deploy project
+      - name: Start PM2
         run: |
-          sudo pm2 start ./index.js
-          sudo pm2 save
-          sudo pm2 startup
+          $(npm bin)/pm2 start ./index.js
+
+      - name: Save PM2 process list
+        run: |
+          $(npm bin)/pm2 save
+
+      - name: Set PM2 startup
+        run: |
+          $(npm bin)/pm2 startup
