@@ -29,6 +29,6 @@ jobs:
 
       - name: Deploy project
         run: |
-          pm2 start ./index.js
-          pm2 save
-          pm2 startup
+          sudo pm2 start ./index.js
+          sudo pm2 save
+          sudo pm2 startup
