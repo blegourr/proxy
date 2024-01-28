@@ -27,11 +27,15 @@ jobs:
           npm i pm2 -g
           npm install
 
-      - name: Start PM2
-        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start ./index.js
+      - name: Start
+        run: |
+          node ./index.js
+        
+      # - name: Start PM2
+      #   run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 start ./index.js
 
-      - name: Save PM2 process list
-        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save
+      # - name: Save PM2 process list
+      #   run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 save
 
-      - name: Set PM2 startup
-        run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd -u runner --hp /home/runner
+      # - name: Set PM2 startup
+      #   run: sudo env PATH=$PATH:/opt/hostedtoolcache/node/21.6.1/x64/bin /opt/hostedtoolcache/node/21.6.1/x64/lib/node_modules/pm2/bin/pm2 startup systemd -u runner --hp /home/runner
