@@ -28,10 +28,10 @@ jobs:
           npm install
 
       - name: Start PM2
-        run: sudo /usr/local/bin/pm2 start ./index.js
+        run: pm2 start ./index.js
 
       - name: Save PM2 process list
-        run: sudo /usr/local/bin/pm2 save
+        run: pm2 save
 
       - name: Set PM2 startup
-        run: sudo /usr/local/bin/pm2 startup
+        run: pm2 startup
