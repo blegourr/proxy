@@ -26,18 +26,42 @@ app.use(async (ctx, next) => {
   if (subdomain === 'organim') {
     console.log(process.env.REDIRECTION_ORGANIMPROD);
     // Rediriger les requêtes vers le serveur x sur le port spécifié
-    proxy.web(ctx.req, ctx.res, {
-      target: process.env.REDIRECTION_ORGANIMPROD
+    await new Promise((resolve, reject) => {
+      proxy.web(ctx.req, ctx.res, {
+        target: process.env.REDIRECTION_ORGANIMPROD
+      }, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
     });
   } else if (subdomain === 'organimDev') {
     // Rediriger les requêtes vers le serveur y sur le port spécifié
-    proxy.web(ctx.req, ctx.res, {
-      target: process.env.REDIRECTION_ORGANIMDEV
+    await new Promise((resolve, reject) => {
+      proxy.web(ctx.req, ctx.res, {
+        target: process.env.REDIRECTION_ORGANIMDEV
+      }, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
     });
   } else {
     // Rediriger les requêtes vers le serveur y sur le port spécifié
-    proxy.web(ctx.req, ctx.res, {
-      target: process.env.REDIRECTION_ORGANIMPROD
+    await new Promise((resolve, reject) => {
+      proxy.web(ctx.req, ctx.res, {
+        target: process.env.REDIRECTION_ORGANIMPROD
+      }, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
     });
   }
   // Ajoutez plus de conditions pour d'autres sous-domaines si nécessaire
