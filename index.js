@@ -54,7 +54,7 @@ app.use(async (ctx, next) => {
     // Rediriger les requêtes vers le serveur y sur le port spécifié
     await new Promise((resolve, reject) => {
       proxy.web(ctx.req, ctx.res, {
-        target: process.env.REDIRECTION_MASTEROFCANDYMDEV
+        target: process.env.REDIRECTION_MASTEROFCANDYDEV
       }, (err) => {
         if (err) {
           reject(err);
