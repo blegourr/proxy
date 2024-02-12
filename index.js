@@ -50,6 +50,19 @@ app.use(async (ctx, next) => {
         }
       });
     });
+  } else if (subdomain === 'masterofcandy') {
+    // Rediriger les requêtes vers le serveur y sur le port spécifié
+    await new Promise((resolve, reject) => {
+      proxy.web(ctx.req, ctx.res, {
+        target: process.env.REDIRECTION_MASTEROFCANDYMDEV
+      }, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
   } else {
     // Rediriger les requêtes vers le serveur y sur le port spécifié
     await new Promise((resolve, reject) => {
